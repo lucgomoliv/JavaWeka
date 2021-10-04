@@ -11,6 +11,8 @@ import weka.core.converters.ConverterUtils.DataSource;
 import weka.classifiers.trees.J48;
 import weka.classifiers.Evaluation;
 import weka.classifiers.lazy.IBk;
+import weka.core.Attribute;
+import weka.core.DenseInstance;
 
 /**
  *
@@ -55,5 +57,26 @@ public class teste {
         Random(1));
         System.out.println("--> Instancias corretas CV: " +
         avalCruzada.correct() + "\n");
+    }
+    
+    public String InstanceBased(int GOLDEARNED, int TOTALMINIONSKILLED, int KILLS, int ASSISTS, int DEATHS, String CHAMPION, int VISIONSCORE, int TOTALDAMAGEDEALTTOCHAMPIONS) throws Exception{
+        IBk k3 = new IBk(3);
+        k3.buildClassifier(dados);
+        Instance newInst = new DenseInstance(8);
+        newInst.setDataset(dados);
+        newInst.setValue(0, GOLDEARNED);
+        newInst.setValue(1, TOTALMINIONSKILLED);
+        newInst.setValue(2, KILLS);
+        newInst.setValue(3, ASSISTS);
+        newInst.setValue(4, DEATHS);
+        newInst.setValue(5, CHAMPION);
+        newInst.setValue(6, VISIONSCORE);
+        newInst.setValue(7, TOTALDAMAGEDEALTTOCHAMPIONS);
+        double pred = k3.classifyInstance(newInst);
+        System.out.println("Predição: " + pred);
+        Attribute a = dados.attribute(4);
+        String predClass = a.value((int) pred);
+        System.out.println("Predição: " + predClass);
+        return predClass;
     }
 }
