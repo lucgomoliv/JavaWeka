@@ -40,7 +40,7 @@ public class teste {
         }
     }
     
-    public void arvoreDeDecisaoJ48() throws Exception {
+    public double[] arvoreDeDecisaoJ48() throws Exception {
         J48 tree = new J48();
         tree.buildClassifier(dados);
         System.out.println(tree);
@@ -48,15 +48,18 @@ public class teste {
         Evaluation avaliacao;
         avaliacao = new Evaluation(dados);
         avaliacao.evaluateModel(tree, dados);
+        var inicial = avaliacao.correct();
         System.out.println("--> Instancias corretas: " +
-        avaliacao.correct() + "\n");
+        inicial + "\n");
         System.out.println("Avaliacao cruzada: \n");
         Evaluation avalCruzada;
         avalCruzada = new Evaluation(dados);
         avalCruzada.crossValidateModel(tree, dados, 10, new
         Random(1));
+        var cruzada = avalCruzada.correct();
         System.out.println("--> Instancias corretas CV: " +
-        avalCruzada.correct() + "\n");
+        cruzada + "\n");
+        return new double[]{inicial, cruzada};
     }
     
     public String InstanceBased(int GOLDEARNED, int TOTALMINIONSKILLED, int KILLS, int ASSISTS, int DEATHS, String CHAMPION, int VISIONSCORE, int TOTALDAMAGEDEALTTOCHAMPIONS) throws Exception{
